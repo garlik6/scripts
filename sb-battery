@@ -1,0 +1,30 @@
+#!/bin/bash
+
+round() { awk -v n=$1 -v d=$2 'BEGIN{print int((n-d/2)/d) * d}'; }
+
+source ~/.local/bin/i_material.sh
+
+stats="$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)"
+status=$(echo "$stats" | grep -Po 'state: \K.*' | tr -d '[:space:]')
+percentage=$(echo "$stats" | grep -Po 'percentage: \K.*' | tr -d '[:space:]')
+num_percentage=$(echo $percentage | tr -d '%')
+if [ "$status" != "discharging" ]
+then
+	rounded_percentage=$(round $num_percentage 20)
+	if [ $num_percentage = "100" ]
+	then
+		rounded_percentage="100"
+	fi
+	charging="_charging_"
+else
+	rounded_percentage=$(round $num_percentage 10)
+	if [ $num_percentage = "100" ]
+	then
+		rounded_percentage=""
+	else
+		rounded_percentage="_${rounded_percentage}"
+	fi
+fi
+
+icon="i_mdi_battery${charging}${rounded_percentage}"
+echo "${!icon} $percentage"

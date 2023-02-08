@@ -6,8 +6,9 @@ current_temp=$(cat $temp_file) || createfile ; current_temp=$(cat $temp_file)
 if [ $current_temp -gt 4500 ] 
 then
 	icon=󰃠
+	feh --bg-scale ~/.local/share/wallpapers/gjbrxc5nt7fa1.jpg
 else
 	icon=󰃝
+	feh --bg-scale ~/.local/share/wallpapers/j5c1zjqix9b91.jpg
 fi
-
 echo "$icon $bri%"

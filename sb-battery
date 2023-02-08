@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 round() { awk -v n=$1 -v d=$2 'BEGIN{print int((n-d/2)/d) * d}'; }
 

@@ -1,8 +1,16 @@
-vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
-
-# If muted, print 󰖁 and exit.
-[ "$vol" != "${vol%\[MUTED\]}" ] && echo "󰖁 " && exit
-
+vol="$(amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]')"
+mute="$(amixer get Master | grep -o '\[on\|\[off' | awk '{print $1}')"
+if [ "$mute" == "[on" ] 
+then
+	amixer set Master mute > /dev/null
+	echo "󰖁 " 
+	exit
+else
+	amixer set Master unmute > /dev/null
+	amixer set Speaker unmute > /dev/null
+	amixer set Headphone unmute > /dev/null
+fi
+mute="$(amixer get Master | grep -o '\[on\|\[off' | awk '{print $1}')"
 vol="${vol#Volume: }"
 split() {
 	# For ommiting the . without calling and external program.
@@ -10,7 +18,7 @@ split() {
 	set -- $1
 	printf '%s' "$@"
 }
-vol="$(split "$vol" ".")"
+vol="$(split "$vol" "%")"
 vol="${vol##0}"
 
 case 1 in
@@ -22,4 +30,4 @@ case 1 in
 	* ) echo   && exit ;;
 esac
 
-echo "$icon$vol%"
+echo "$icon$vol"

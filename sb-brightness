@@ -1,14 +1,19 @@
 #!/bin/sh
 temp_file="/tmp/sct_file.tmp"
-bri=$(xbacklight | cut -d. -f1)
-createfile() { touch $temp_file; chmod ugo+rwx $temp_file; echo $(sct) | grep -Po 'Temperature: \K.*' | tr -d '[:space:]' | cut -dK -f1 > $temp_file ; }
+bri=$(xbacklight -get)
+temp=$(echo $(xsct) | cut -d " " -f 5)
+createfile() { touch $temp_file; chmod ugo+rwx $temp_file; echo $temp > $temp_file ; }
 current_temp=$(cat $temp_file) || createfile ; current_temp=$(cat $temp_file)
 if [ $current_temp -gt 4500 ] 
 then
 	icon=󰃠
-	feh --bg-scale ~/.local/share/wallpapers/gjbrxc5nt7fa1.jpg
 else
 	icon=󰃝
-	feh --bg-scale ~/.local/share/wallpapers/j5c1zjqix9b91.jpg
 fi
 echo "$icon $bri%"
+if [ $current_temp -gt 4500 ] 
+then
+	feh --bg-scale ~/.local/share/sakura.jpg &
+else
+	feh --bg-scale ~/.local/share/sand.jpg &
+fi

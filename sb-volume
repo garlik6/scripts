@@ -1,14 +1,15 @@
+#!/bin/bash
 vol="$(amixer get Master | awk '$0~/%/{print $4}' | tr -d '[]')"
 mute="$(amixer get Master | grep -o '\[on\|\[off' | awk '{print $1}')"
 if [ "$mute" == "[on" ] 
 then
-	amixer set Master mute > /dev/null
+	#amixer set Master mute > /dev/null
 	echo "󰖁 " 
 	exit
-else
-	amixer set Master unmute > /dev/null
-	amixer set Speaker unmute > /dev/null
-	amixer set Headphone unmute > /dev/null
+#else
+	#amixer set Master unmute > /dev/null
+	#amixer set Speaker unmute > /dev/null
+	#amixer set Headphone unmute > /dev/null
 fi
 mute="$(amixer get Master | grep -o '\[on\|\[off' | awk '{print $1}')"
 vol="${vol#Volume: }"

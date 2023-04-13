@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 round() { awk -v n=$1 -v d=$2 'BEGIN{print int((n-d/2)/d) * d}'; }
 
@@ -8,6 +8,26 @@ stats="$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)"
 status=$(echo "$stats" | grep -Po 'state: \K.*' | tr -d '[:space:]')
 percentage=$(echo "$stats" | grep -Po 'percentage: \K.*' | tr -d '[:space:]')
 num_percentage=$(echo $percentage | tr -d '%')
+
+statefile='./battery_notification_statefile'
+isNotified=false
+
+if [ -f "$statefile" ]; then
+	read -r isNotified <"$statefile"
+fi
+if [ $num_percentage -lt 10 ] && [ $isNotified = "false" ]
+then
+	notify-send "Battery percentage critically low! consider plugging me in"
+	isNotified=true		 	   
+fi
+
+if [ $num_percentage -gt 9 ] 
+then
+	isNotified=false		 	   
+fi
+
+printf '%b\n' "$isNotified" >"$statefile"
+
 if [ "$status" != "discharging" ]
 then
 	rounded_percentage=$(round $num_percentage 20)

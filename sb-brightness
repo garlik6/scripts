@@ -11,9 +11,3 @@ else
 	icon=󰃝
 fi
 echo "$icon $bri%"
-if [ $current_temp -gt 4500 ] 
-then
-	feh --bg-scale ~/.local/share/sakura.jpg &
-else
-	feh --bg-scale ~/.local/share/sand.jpg &
-fi

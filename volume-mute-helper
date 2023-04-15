@@ -1,0 +1,11 @@
+#!/bin/bash
+mute="$(amixer get Master | grep -o '\[on\|\[off' | awk '{print $1}')"
+if [ "$mute" == "[on" ] 
+then
+	amixer set Master mute > /dev/null
+	exit
+else
+	amixer set Master unmute > /dev/null
+	amixer set Speaker unmute > /dev/null
+	amixer set Headphone unmute > /dev/null
+fi

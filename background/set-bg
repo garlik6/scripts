@@ -24,11 +24,9 @@ esac
 
 if [ $option = "dark" ]
 then
-	randBackground=$(ls $darkFolder | sort -R | tail -1)
-	echo "$darkFolder$randBackground"
-	feh --bg-scale $darkFolder/$randBackground
+	randBackground=$(find  "$darkFolder" -type f | sort -R | tail -1)
+	feh --bg-scale "$randBackground"
 else
-	randBackground=$(ls $lightFolder | sort -R | tail -1)
-	echo "$lightFolder$randBackground"
-	feh --bg-scale $lightFolder/$randBackground
+	randBackground=$(find  $lightFolder -type f| sort -R | tail -1)
+	feh --bg-scale "$randBackground"
 fi

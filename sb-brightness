@@ -1,10 +1,10 @@
 #!/bin/sh
 temp_file="/tmp/sct_file.tmp"
 bri=$(xbacklight -get)
-temp=$(echo $(xsct) | cut -d " " -f 5)
-createfile() { touch $temp_file; chmod ugo+rwx $temp_file; echo $temp > $temp_file ; }
+temp=$(xsct | cut -d " " -f 5)
+createfile() { touch $temp_file; chmod ugo+rwx $temp_file; echo "$temp" > $temp_file ; }
 current_temp=$(cat $temp_file) || createfile ; current_temp=$(cat $temp_file)
-if [ $current_temp -gt 4500 ] 
+if [ "$current_temp" -gt 4500 ] 
 then
 	icon=󰃠
 else

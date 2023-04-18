@@ -2,7 +2,7 @@
 
 round() { awk -v n="$1" -v d="$2" 'BEGIN{print int((n-d/2)/d) * d}'; }
 
-~/scripts/i_material.sh
+source ~/scripts/i_material.sh
 
 stats="$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)"
 status=$(echo "$stats" | grep -Po 'state: \K.*' | tr -d '[:space:]')

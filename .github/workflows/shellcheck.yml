@@ -1,19 +1,14 @@
-on: 
-  push:
-    branches:
-      - master
-
-name: "Trigger ShellCheck on push"
 jobs:
   shellcheck:
+    env:
+        SHELLCHECK_OPTS: -e SC2034 SC1090
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Run Shellcheck 
         uses: ludeeus/action-shellcheck@master
-#    env:
-#        SHELLCHECK_OPTS: -e SC2034 SC1090
-
-        
-
-
+name: "Trigger ShellCheck on push"
+on: 
+  push:
+    branches:
+      - master
